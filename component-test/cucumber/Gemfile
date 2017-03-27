@@ -1,0 +1,17 @@
+source 'https://gems.cloud.bbc.co.uk' do
+  gem 'mod_av_cucumber'
+  gem 'aws-helper-v2'
+  gem 'ispy'
+  gem 'pips-domain'
+  gem 'modav_mir'
+end
+
+source 'https://rubygems.org' do
+  gem 'awesome_print'
+  gem 'process-helper'
+  gem 'rest-client'
+
+  group :local do
+    gem 'pry'
+  end
+end
