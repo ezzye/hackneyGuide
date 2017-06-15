@@ -1,0 +1,18 @@
+{
+  "version": "1.0",
+  "response": {
+    "outputSpeech": {
+      "type": "SSML",
+      "ssml": "<speak> Hackney is in North East Central London, United Kingdom.  It has theatres, restaurants, museums and open spaces with a population of about a quarter of a million people. Hackney Town Hall is approximately 5 miles (8 km) north-east of Charing Cross, St Pauls Cathedral being situated in between.  Hackney is bounded by Islington to the west, Haringey to the north, Waltham Forest to the north-east, Newham to the east, Tower Hamlets to the south-east and the City of London to the south-west. Much of Hackney retains an inner-city character, but in such places as Dalston large housing estates have been joined by newly developed gated communities. In South Hackney, near Victoria Park, terraced Georgian, Victorian and Edwardian housing still survives.  The historical and administrative heart of Hackney is the area roughly extending north from Mare Street and surrounding the Church of St John-at-Hackney; known as Hackney Central. To the north of the borough are Upper Clapton and Lower Clapton, Stamford Hill and Stoke Newington. To the east is the large open space of Hackney Marshes and the districts of Hackney Wick and Homerton. Light industries in the area around the River Lea employ over 3,000 people. Some of the area was used for the 2012 Summer Olympics. </speak>"
+    },
+    "card": {
+      "content": "Hackney is in North East Central London, United Kingdom.  It has theatres, restaurants, museums and open spaces with a population of about a quarter of a million people. Hackney Town Hall is approximately 5 miles (8 km) north-east of Charing Cross, St Pauls Cathedral being situated in between.  Hackney is bounded by Islington to the west, Haringey to the north, Waltham Forest to the north-east, Newham to the east, Tower Hamlets to the south-east and the City of London to the south-west. Much of Hackney retains an inner-city character, but in such places as Dalston large housing estates have been joined by newly developed gated communities. In South Hackney, near Victoria Park, terraced Georgian, Victorian and Edwardian housing still survives.  The historical and administrative heart of Hackney is the area roughly extending north from Mare Street and surrounding the Church of St John-at-Hackney; known as Hackney Central. To the north of the borough are Upper Clapton and Lower Clapton, Stamford Hill and Stoke Newington. To the east is the large open space of Hackney Marshes and the districts of Hackney Wick and Homerton. Light industries in the area around the River Lea employ over 3,000 people. Some of the area was used for the 2012 Summer Olympics.",
+      "title": "Hackney",
+      "type": "Simple"
+    },
+    "shouldEndSession": true
+  },
+  "sessionAttributes": {
+    "STATE": "_SEARCHMODE"
+  }
+}

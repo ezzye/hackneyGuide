@@ -1,9 +1,6 @@
 package hackneyGuide;
 
-import com.amazon.speech.speechlet.LaunchRequest;
-import com.amazon.speech.speechlet.Session;
-import com.amazon.speech.speechlet.SessionStartedRequest;
-import com.amazon.speech.speechlet.SpeechletResponse;
+import com.amazon.speech.speechlet.*;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -33,6 +30,8 @@ public class hackneyGuideSpeechletTest {
     Session session;
     @Mock
     SpeechletResponse getWelcomeResponse;
+    @Mock
+    IntentRequest intentRequest;
 
 
 
@@ -40,42 +39,57 @@ public class hackneyGuideSpeechletTest {
     public void setUp() throws Exception {
     }
 
-
+    // start session
     @Test
     public void onSessionStarted() throws Exception {
         underTest.onSessionStarted(sessionStartedRequest,session);
     }
 
+    // onLaunch request returns a welcome response
     @Test
     public void onLaunch() throws Exception {
 
         SpeechletResponse expected = underTest.onLaunch(launchRequest,session);
-
         assertThat(expected, instanceOf(SpeechletResponse.class));
     }
 
+    // welcome response returns a response
     @Test
     public void getWelcomeResponse() throws Exception {
 
         SpeechletResponse expected = underTest.getWelcomeResponse();
-
         assertThat(expected, instanceOf(SpeechletResponse.class));
     }
 
+    // welcome returns new ask response
     @Test
     public void newAskResponse() throws Exception {
         SpeechletResponse expected = underTest.newAskResponse("Welcome",false, "What?",false);
         assertThat(expected, instanceOf(SpeechletResponse.class));
     }
 
-    @Test
-    public void onIntent() throws Exception {
+//    @Test
+//    public void onIntentTest() throws Exception {
+//
+//        SpeechletResponse expected = underTest.onIntent(intentRequest,session);
 
-    }
+        //onIntent  request, when no session state, sets session state to searchmode and returns an searchmode handler
 
-    @Test
-    public void onSessionEnded() throws Exception {
 
-    }
+        //onIntent  request, when searchmode session state,  returns a either searchmode handler or topfive handler depending on intent
+
+        //onIntent  request, when topfive session state,  returns an topfive handler
+
+//    }
+
+
+
+    //onSessionEnded  request,  returns a response and ends session
+
+    //a searchmode handler returns a response and sets state depending on intent
+
+    //a topfive handler returns a response depending on intent
+
+
 
 }

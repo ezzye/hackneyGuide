@@ -1,5 +1,6 @@
 package hackneyGuide;
 
+import com.amazon.speech.slu.Intent;
 import com.amazon.speech.speechlet.*;
 import com.amazon.speech.ui.OutputSpeech;
 import com.amazon.speech.ui.PlainTextOutputSpeech;
@@ -7,6 +8,7 @@ import com.amazon.speech.ui.Reprompt;
 import com.amazon.speech.ui.SsmlOutputSpeech;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import com.amazonaws.services.lambda.runtime.log4j.LambdaAppender;
 
 /**
  * Created by ellioe03 on 18/03/2017.
@@ -15,6 +17,18 @@ import org.slf4j.LoggerFactory;
 public class hackneyGuideSpeechlet implements Speechlet {
 
     private static final Logger log = LoggerFactory.getLogger(hackneyGuideSpeechlet.class);
+
+    /**
+     * Constant defining session attribute key for the event index.
+     */
+    private static final String SESSION_INDEX = "mode";
+
+    /**
+     * Constant defining session attribute key for the event text key for date of events.
+     */
+    private static final String SEARCH_MODE = "SEARCHMODE";
+    private static final String TOP_FIVE_MODE = "TOPFIVE";
+
 
     String LOCATION = "Hackney";
 
@@ -104,6 +118,23 @@ public class hackneyGuideSpeechlet implements Speechlet {
 
     @Override
     public SpeechletResponse onIntent(IntentRequest request, Session session) throws SpeechletException {
+        log.info("onIntent requestId={}, sessionId={}", request.getRequestId(),
+                session.getSessionId());
+
+        Intent intent = request.getIntent();
+        String intentName = intent.getName();
+
+        if(session.getAttribute(SEARCH_MODE)!=null)
+        session.setAttribute(SEARCH_MODE, SEARCH_MODE);
+
+        if ("getOverview".equals(intentName)) {
+            return searchModeHandler(intent, session);
+        } else {
+            return null;
+        }
+    }
+
+    private SpeechletResponse searchModeHandler(Intent intent, Session session) {
         return null;
     }
 
