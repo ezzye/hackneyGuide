@@ -8,7 +8,6 @@ import com.amazon.speech.ui.Reprompt;
 import com.amazon.speech.ui.SsmlOutputSpeech;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import com.amazonaws.services.lambda.runtime.log4j.LambdaAppender;
 
 /**
  * Created by ellioe03 on 18/03/2017.

@@ -7,25 +7,15 @@
 
  or in the "license" file accompanying this file. This file is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.
  */
+import com.amazon.speech.speechlet.Speechlet;
+import com.amazon.speech.speechlet.servlet.SpeechletServlet;
 import hackneyGuide.hackneyGuideSpeechlet;
-
 import org.apache.log4j.BasicConfigurator;
 import org.apache.log4j.PropertyConfigurator;
-import org.eclipse.jetty.server.Connector;
-import org.eclipse.jetty.server.HttpConfiguration;
-import org.eclipse.jetty.server.HttpConnectionFactory;
-import org.eclipse.jetty.server.SecureRequestCustomizer;
-import org.eclipse.jetty.server.Server;
-import org.eclipse.jetty.server.ServerConnector;
-import org.eclipse.jetty.server.SslConnectionFactory;
+import org.eclipse.jetty.server.*;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
 import org.eclipse.jetty.util.ssl.SslContextFactory;
-
-
-import com.amazon.speech.Sdk;
-import com.amazon.speech.speechlet.Speechlet;
-import com.amazon.speech.speechlet.servlet.SpeechletServlet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -40,7 +30,8 @@ public final class Launcher {
     /**
      * port number for the jetty server.
      */
-    private static final int PORT = 9999;
+    private static final int PORT = 8443;
+
 
     /**
      * Security scheme to use.
@@ -66,7 +57,10 @@ public final class Launcher {
         BasicConfigurator.configure();
 
         // Configure logging to output to the console with default level of INFO
-//        PropertyConfigurator.configure(Thread.currentThread().getContextClassLoader().getResource("log4j.properties"));
+        PropertyConfigurator.configure(Thread.currentThread().getContextClassLoader().getResource("log4j.properties"));
+
+        System.setProperty("javax.net.ssl.keyStore","/Library/Java/JavaVirtualMachines/jdk1.8.0_92.jdk/Contents/Home/jre/lib/security/keyStore.jks");
+        System.setProperty("javax.net.ssl.keyStorePassword","Aelliott1963");
 
         // Configure server and its associated servlets
         Server server = new Server();
@@ -74,7 +68,6 @@ public final class Launcher {
         SslContextFactory sslContextFactory = sslConnectionFactory.getSslContextFactory();
         sslContextFactory.setKeyStorePath(System.getProperty("javax.net.ssl.keyStore"));
         sslContextFactory.setKeyStorePassword(System.getProperty("javax.net.ssl.keyStorePassword"));
-        sslContextFactory.setIncludeCipherSuites(Sdk.SUPPORTED_CIPHER_SUITES);
 
         HttpConfiguration httpConf = new HttpConfiguration();
         httpConf.setSecurePort(PORT);
@@ -95,11 +88,12 @@ public final class Launcher {
         server.setHandler(context);
         context.addServlet(new ServletHolder(createServlet(new hackneyGuideSpeechlet())), "/hello");
         server.start();
-        server.join();
+//        server.join();
     }
 
     private static SpeechletServlet createServlet(final Speechlet speechlet) {
         SpeechletServlet servlet = new SpeechletServlet();
+        System.setProperty("Sdk.DISABLE_REQUEST_SIGNATURE_CHECK_SYSTEM_PROPERTY","true");
         servlet.setSpeechlet(speechlet);
         return servlet;
     }

@@ -28,6 +28,35 @@ To run this example skill you need to do two things. The first is to deploy the 
 13. Set the Event Source type as Alexa Skills kit and Enable it now. Click Submit.
 14. Copy the ARN from the top right to be used later in the Alexa Skill Setup.
 
+### To Run Lambda in Launcher
+build using build script in root
+compile using build script in sample
+run using run.sh script
+issues -
+* Log4j not loading
+
+example query :$ curl -v -k https://localhost:9999/hello --data @fixtures/launch-request.json  | jq '.'
+
+example result:
+
+{
+  "version": "1.0",
+  "response": {
+    "outputSpeech": {
+      "type": "PlainText",
+      "text": "Hackney Guide. You can ask me for an attraction, the local news, or  say help. What will it be?"
+    },
+    "reprompt": {
+      "outputSpeech": {
+        "type": "PlainText",
+        "text": "You can ask me for an attraction, the local news, or  say help. What will it be?"
+      }
+    },
+    "shouldEndSession": false
+  },
+  "sessionAttributes": {}
+}
+
 ### Alexa Skill Setup
 1. Go to the [Alexa Console](https://developer.amazon.com/edw/home.html) and click Add a New Skill.
 2. Set "HistoryBuff" as the skill name and "history buff" as the invocation name, this is what is used to activate your skill. For example you would say: "Alexa, Ask History Buff what happened on August thirtieth.."

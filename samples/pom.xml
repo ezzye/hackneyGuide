@@ -29,7 +29,7 @@
     <dependency>
       <groupId>log4j</groupId>
       <artifactId>log4j</artifactId>
-      <version>1.2</version>
+      <version>1.2.17</version>
       <scope>compile</scope>
     </dependency>
     <dependency>
@@ -119,7 +119,7 @@
             <systemProperties>
               <systemProperty>
                 <key>javax.net.ssl.keyStore</key>
-                <value>/Users/ellioe03/.ssl/java-keystore.jks</value>
+                <value>/Users/ellioe03/.ssl/keystore.jks</value>
               </systemProperty>
               <systemProperty>
                 <key>javax.net.ssl.keyStorePassword</key>

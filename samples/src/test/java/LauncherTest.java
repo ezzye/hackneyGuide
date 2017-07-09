@@ -1,51 +1,83 @@
-import org.eclipse.jetty.http.HttpStatus;
+import com.amazon.speech.Sdk;
+import org.apache.http.HttpEntity;
+import org.apache.http.client.methods.CloseableHttpResponse;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
+import org.apache.http.conn.ssl.TrustSelfSignedStrategy;
+import org.apache.http.entity.InputStreamEntity;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClients;
+import org.apache.http.ssl.SSLContexts;
+import org.apache.http.util.EntityUtils;
 import org.eclipse.jetty.server.Server;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.net.HttpURLConnection;
-import java.net.URL;
-
-import static org.hamcrest.core.Is.is;
-import static org.junit.Assert.*;
+import javax.net.ssl.SSLContext;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.security.*;
+import java.security.cert.CertificateException;
 
 /**
  * Created by ellioe03 on 14/06/2017.
  */
-//public class LauncherTest {
-//
-//    private Server server;
-//
-//    @Before
-//    public void startJetty() throws Exception
-//    {
-//        String[] args = new String[0];
-//        Launcher.main(args);
-//
-//    }
-//
-//    @After
-//    public void stopJetty()
-//    {
-//        try
-//        {
-//            server.stop();
-//        }
-//        catch (Exception e)
-//        {
-//            e.printStackTrace();
-//        }
-//    }
-//
-//    @Test
-//    public void testGet() throws Exception
-//    {
-//        // Test GET
-//        HttpURLConnection http = (HttpURLConnection)new URL("http://localhost:9999/hello").openConnection();
-//        http.connect();
-//        assertThat("Response Code", http.getResponseCode(), is(HttpStatus.OK_200));
-//    }
-//
-//
-//}
+public class LauncherTest {
+
+    private Server server;
+    private static final String CA_KEYSTORE_TYPE = KeyStore.getDefaultType(); //"JKS";
+    private static final String CA_KEYSTORE_PATH = "/Library/Java/JavaVirtualMachines/jdk1.8.0_92.jdk/Contents/Home/jre/lib/security/keyStore.jks";
+    private static final String CA_KEYSTORE_PASS = "Aelliott1963";
+
+    @Before
+    public void startJetty() throws Exception
+    {
+        String[] args = new String[0];
+        Launcher.main(args);
+    }
+
+    @After
+    public void stopJetty()
+    {
+        try
+        {
+            server.stop();
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+    }
+
+
+
+    @Test
+    public void testPost() throws Exception
+    {
+        SSLConnectionSocketFactory csf = new SSLConnectionSocketFactory(
+                createSslCustomContext(),
+                new String[]{"TLSv1","TLSv1.1","TLSv1.2"},
+                Sdk.SUPPORTED_CIPHER_SUITES,
+                SSLConnectionSocketFactory.getDefaultHostnameVerifier());
+        try (CloseableHttpClient httpclient = HttpClients.custom().setSSLSocketFactory(csf).build()) {
+            HttpPost req = new HttpPost("https://localhost:8443/hello");
+            HttpEntity ent = new InputStreamEntity(new FileInputStream("data"));
+            req.setEntity(ent);
+            try (CloseableHttpResponse response = httpclient.execute(req)) {
+                HttpEntity entity = response.getEntity();
+                EntityUtils.consume(entity);
+            }
+        }
+    }
+
+    public static SSLContext createSslCustomContext() throws KeyStoreException, IOException, NoSuchAlgorithmException, CertificateException, KeyManagementException, UnrecoverableKeyException {
+        KeyStore tks = KeyStore.getInstance(CA_KEYSTORE_TYPE);
+        tks.load(new FileInputStream(CA_KEYSTORE_PATH), CA_KEYSTORE_PASS.toCharArray());
+        SSLContext sslcontext = SSLContexts.custom()
+                .loadTrustMaterial(tks, new TrustSelfSignedStrategy()) // use it to customize
+                .build();
+        return sslcontext;
+    }
+
+}

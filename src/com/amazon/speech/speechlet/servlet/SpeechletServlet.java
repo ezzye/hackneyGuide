@@ -81,13 +81,14 @@ public class SpeechletServlet extends HttpServlet {
         try {
             if (disableRequestSignatureCheck) {
                 log.warn("Warning: Speechlet request signature verification has been disabled!");
-            } else {
-                // Verify the authenticity of the request by checking the provided signature &
-                // certificate.
-                SpeechletRequestSignatureVerifier.checkRequestSignature(serializedSpeechletRequest,
-                        request.getHeader(Sdk.SIGNATURE_REQUEST_HEADER),
-                        request.getHeader(Sdk.SIGNATURE_CERTIFICATE_CHAIN_URL_REQUEST_HEADER));
             }
+//            else {
+//                // Verify the authenticity of the request by checking the provided signature &
+//                // certificate.
+//                SpeechletRequestSignatureVerifier.checkRequestSignature(serializedSpeechletRequest,
+//                        request.getHeader(Sdk.SIGNATURE_REQUEST_HEADER),
+//                        request.getHeader(Sdk.SIGNATURE_CERTIFICATE_CHAIN_URL_REQUEST_HEADER));
+//            }
 
             outputBytes =
                     speechletRequestHandler.handleSpeechletCall(speechlet,
