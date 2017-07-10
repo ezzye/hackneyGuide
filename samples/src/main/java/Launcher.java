@@ -7,6 +7,7 @@
 
  or in the "license" file accompanying this file. This file is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.
  */
+import com.amazon.speech.Sdk;
 import com.amazon.speech.speechlet.Speechlet;
 import com.amazon.speech.speechlet.servlet.SpeechletServlet;
 import hackneyGuide.hackneyGuideSpeechlet;
@@ -86,6 +87,7 @@ public final class Launcher {
         ServletContextHandler context = new ServletContextHandler(ServletContextHandler.SESSIONS);
         context.setContextPath("/");
         server.setHandler(context);
+        System.setProperty(Sdk.DISABLE_REQUEST_SIGNATURE_CHECK_SYSTEM_PROPERTY,"true");
         context.addServlet(new ServletHolder(createServlet(new hackneyGuideSpeechlet())), "/hello");
         server.start();
 //        server.join();
@@ -93,7 +95,6 @@ public final class Launcher {
 
     private static SpeechletServlet createServlet(final Speechlet speechlet) {
         SpeechletServlet servlet = new SpeechletServlet();
-        System.setProperty("Sdk.DISABLE_REQUEST_SIGNATURE_CHECK_SYSTEM_PROPERTY","true");
         servlet.setSpeechlet(speechlet);
         return servlet;
     }

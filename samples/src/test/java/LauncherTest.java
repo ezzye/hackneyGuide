@@ -20,6 +20,9 @@ import java.io.IOException;
 import java.security.*;
 import java.security.cert.CertificateException;
 
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.core.Is.is;
+
 /**
  * Created by ellioe03 on 14/06/2017.
  */
@@ -65,8 +68,10 @@ public class LauncherTest {
             HttpEntity ent = new InputStreamEntity(new FileInputStream("data"));
             req.setEntity(ent);
             try (CloseableHttpResponse response = httpclient.execute(req)) {
+                assertThat(response.getStatusLine().toString(),is("HTTP/1.1 200 OK"));
                 HttpEntity entity = response.getEntity();
                 EntityUtils.consume(entity);
+
             }
         }
     }
